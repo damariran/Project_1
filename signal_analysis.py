@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.pyplot import xlabel
 from scipy import fft, signal
 
 # simulation parameters:
@@ -13,29 +12,37 @@ frequency_range_of_waves = [0.1, 10]
 
 # Generate a synthetic signal out of 3 random signals
 def synthetic_signal(sim_dura, res, num_wave, freq_range):
-    time = np.linspace(0, sim_dura, int(abs(100 / res)))
-    syn_signal = np.zeros(len(time))
+    time = np.linspace(0, sim_dura, int(abs(100 / res))) #  first, we define the simulation time
+    syn_signal = np.zeros(len(time)) #  start with an empty signal.
     for i in range(1,num_wave):
         Amp = np.random.uniform(0.1, 1) # amplitude between 0 and 1
         Phase = np.random.uniform(-np.pi, np.pi) # phase between -pi and pi
         Omega = np.random.uniform(freq_range[0], freq_range[1]) # frequency range
-        syn_signal = syn_signal + Amp * np.sin((np.pi * Omega * time) - Phase)
+        syn_signal = syn_signal + Amp * np.sin((np.pi * Omega * time) - Phase) # each loop we add a signal on top of the previous one.
     return syn_signal, time
 
+def signal_fiter(syn_signal, time, low_pass_cut_freq):
+    sampling_frequency = len(time) / (time[-1] - time[0]) # [Hz] the t[-1] means we get the last element of array t
+    sos = signal.butter(3, low_pass_cut_freq, 'low', fs=sampling_frequency, output='sos') # 5th order Butterworth filter the output is the second-order-sections coefficients (SOS)
+    filtered_signal = signal.sosfilt(sos, syn_signal) #  this function employ the SOS coefficients to the signal filter.
+    return filtered_signal, sampling_frequency
+
+def simple_fft(x, y):
+    sampling_frequency = len(x) / (x[-1] - x[0])
+    x_fft = fft.fftfreq(len(x), 1/sampling_frequency)
+    y_fft = fft.fft(y)
+    Positive_x_fft = x_fft[x_fft >= 0]  # returns only the positive frequency bins.
+    y_fft = np.abs(y_fft)
+    positive_y_fft = y_fft[x_fft >= 0]  # returns the right side magnitudes only.
+    return Positive_x_fft, positive_y_fft
 
 #  Here we generated a random signal
 [data, t] = synthetic_signal(sim_duration, resolution, number_of_waves, frequency_range_of_waves)
 # Apply a low-pass filter
-fs = len(t) / (t[-1] - t[0])  # [Hz] the t[-1] means we get the last element of array t
-sos = signal.butter(3, low_pass_cutoff_freq, 'low', fs=fs, output='sos')  # 5th order Butterworth filter
-filtered_data = signal.sosfilt(sos, data)
-
+[filtered_data, fs] = signal_fiter(data, t, low_pass_cutoff_freq)
 # calculate fft
-frequencies = fft.fftfreq(len(t), 1/fs)  # frequency bins
-fft_values = fft.fft(data)  # fft of original data
-positive_frequencies = frequencies[frequencies >= 0]  # returns only the positive frequency bins.
-magnitudes = np.abs(fft_values)
-positive_magnitudes = magnitudes[frequencies >= 0]  # returns the right side magnitudes only.
+[positive_frequencies, positive_magnitudes] = simple_fft(t, data)
+
 
 # plot data
 plt.figure(figsize=(8, 6)); plt.subplot(3, 1, 1)
