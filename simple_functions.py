@@ -6,10 +6,10 @@ def simple_fft(x, y):
     sampling_frequency = len(x) / (x[-1] - x[0])
     x_fft = fft.fftfreq(len(x), 1/sampling_frequency)
     y_fft = fft.fft(y)
-    Positive_x_fft = x_fft[x_fft >= 0]  # returns only the positive frequency bins.
+    positive_x_fft = x_fft[x_fft >= 0]  # returns only the positive frequency bins.
     y_fft = np.abs(y_fft)
     positive_y_fft = y_fft[x_fft >= 0]  # returns the right side magnitudes only.
-    return Positive_x_fft, positive_y_fft
+    return positive_x_fft, positive_y_fft
 
 def simple_plot(x, y, my_xlimit=None, sub_plot=None, my_legend=None, my_title=None, my_x_label=None, my_y_label=None, close=True):
 
@@ -57,7 +57,7 @@ def simple_plot(x, y, my_xlimit=None, sub_plot=None, my_legend=None, my_title=No
 
 def simple_butter_filter(x, y, my_low_pass_cutoff_frequency=None, filter_order=3):
     if my_low_pass_cutoff_frequency is None:
-        low_pass_cut_freq = 5 #[Hz]
+        my_low_pass_cutoff_frequency = 5 #[Hz]
     else:
         pass
 

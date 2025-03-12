@@ -1,14 +1,15 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy import fft, signal
-from simple_functions import simple_fft, simple_plot, butterworth_filter_3order
+from simple_functions import simple_fft, simple_plot, simple_butter_filter
 
 # simulation parameters:
-sim_duration = 50
+sim_duration = 50   #[s]
 resolution = 0.1  # [%]
-l_p_c_f = 1  # [Hz] Low pass cutoff frequency
-number_of_waves = 10
-frequency_range_of_waves = [0.1, 10]
+number_of_waves = 10 #  How many sin waves will compose this random signal
+frequency_range_of_waves = [0.1, 10] # What will be the range of frequencies for this random signal
+
+l_p_c_f = 1  # [Hz] Low pass cutoff frequency for the filter
 
 # Generate a synthetic signal out of 3 random signals
 def synthetic_signal(sim_dura, res, num_wave, freq_range):
