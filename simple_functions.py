@@ -55,6 +55,50 @@ def simple_plot(x, y, my_xlimit=None, sub_plot=None, my_legend=None, my_title=No
         plt.show()
     return
 
+def simple_scatter(x, y, my_xlimit=None, sub_plot=None, my_legend=None, my_title=None, my_x_label=None, my_y_label=None, close=True):
+
+    if sub_plot is None:
+        pass
+    else:
+        plt.subplot(sub_plot[0],sub_plot[1],sub_plot[2])
+
+    if len(x) == len(y):
+        plt.scatter(x,y, alpha=0.5)
+    else:
+        print('The x and y vectors are not in the same length!')
+        return None
+
+    if my_xlimit is None:
+        pass
+    else:
+        plt.xlim(my_xlimit[0], my_xlimit[1])
+
+    if my_title is None:
+        pass
+    else:
+        plt.title(my_title)
+
+    if my_x_label is None:
+        pass
+    else:
+        plt.xlabel(my_x_label)
+
+    if my_y_label is None:
+        pass
+    else:
+        plt.ylabel(my_y_label)
+
+    if my_legend is None:
+        pass
+    else:
+        plt.legend([my_legend])
+
+    plt.grid(True)
+
+    if close:
+        plt.show()
+    return
+
 def simple_butter_filter(x, y, my_low_pass_cutoff_frequency=None, filter_order=3):
     if my_low_pass_cutoff_frequency is None:
         my_low_pass_cutoff_frequency = 5 #[Hz]
