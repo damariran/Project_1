@@ -24,8 +24,25 @@ x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.2, random
 model = LinearRegression() # an instance of the LinearRegression() class in created in 'model'
 model.fit(x_train, y_train) # This class has a fit option. It fit the best linear line (model) to the training data
 y_fit = model.predict(x)
-simple_scatter(x_train, y_train, close=False)
-simple_plot(x, y_fit, close=True)
 
 # Step 4: Make predictions (this is the fitted line!!!)
 y_predictions = model.predict(x_test)
+
+# step 5: Evaluate model
+mse = mean_squared_error(y_test, y_predictions)
+r2 = r2_score(y_test,y_predictions)
+print(f'Mean Squared Error: {mse:.2f}')
+print(f'R^2 Score:{r2:.2f}')
+
+simple_scatter(x_train, y_train,
+               my_legend='Training data',
+               my_x_label='Feature [X]',
+               my_y_label='Target [Y]',
+               my_title='example of linear regression',
+               close=False)
+simple_scatter(x_test, y_test,
+               my_legend='Test data' ,
+               close=False)
+simple_plot(x_test, y_predictions,
+            my_legend='fit',
+            my_text='mse')

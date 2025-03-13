@@ -11,7 +11,7 @@ def simple_fft(x, y):
     positive_y_fft = y_fft[x_fft >= 0]  # returns the right side magnitudes only.
     return positive_x_fft, positive_y_fft
 
-def simple_plot(x, y, my_xlimit=None, sub_plot=None, my_legend=None, my_title=None, my_x_label=None, my_y_label=None, close=True):
+def simple_plot(x, y, my_xlimit=None, sub_plot=None, my_legend=None, my_title=None, my_x_label=None, my_y_label=None, my_text=None, close=True):
 
     if sub_plot is None:
         pass
@@ -19,7 +19,7 @@ def simple_plot(x, y, my_xlimit=None, sub_plot=None, my_legend=None, my_title=No
         plt.subplot(sub_plot[0],sub_plot[1],sub_plot[2])
 
     if len(x) == len(y):
-        plt.plot(x,y, alpha=0.5)
+        plt.plot(x,y, label= my_legend,alpha=0.5)
     else:
         print('The x and y vectors are not in the same length!')
         return None
@@ -47,7 +47,12 @@ def simple_plot(x, y, my_xlimit=None, sub_plot=None, my_legend=None, my_title=No
     if my_legend is None:
         pass
     else:
-        plt.legend([my_legend])
+        plt.legend()
+
+    if my_text is None:
+        pass
+    else:
+        plt.text(1,1,my_text)
 
     plt.grid(True)
 
@@ -63,7 +68,7 @@ def simple_scatter(x, y, my_xlimit=None, sub_plot=None, my_legend=None, my_title
         plt.subplot(sub_plot[0],sub_plot[1],sub_plot[2])
 
     if len(x) == len(y):
-        plt.scatter(x,y, alpha=0.5)
+        plt.scatter(x,y, label= my_legend,alpha=0.5)
     else:
         print('The x and y vectors are not in the same length!')
         return None
@@ -91,7 +96,7 @@ def simple_scatter(x, y, my_xlimit=None, sub_plot=None, my_legend=None, my_title
     if my_legend is None:
         pass
     else:
-        plt.legend([my_legend])
+        plt.legend()
 
     plt.grid(True)
 
