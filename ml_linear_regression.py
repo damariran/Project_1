@@ -1,5 +1,6 @@
 from statistics import linear_regression
 
+import matplotlib.pyplot as plt
 import numpy as np
 from simple_functions import simple_plot, simple_scatter
 from sklearn.linear_model import LinearRegression
@@ -23,7 +24,6 @@ x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.2, random
 # Step 3: fit linear regression model
 model = LinearRegression() # an instance of the LinearRegression() class in created in 'model'
 model.fit(x_train, y_train) # This class has a fit option. It fit the best linear line (model) to the training data
-y_fit = model.predict(x)
 
 # Step 4: Make predictions (this is the fitted line!!!)
 y_predictions = model.predict(x_test)
@@ -31,8 +31,16 @@ y_predictions = model.predict(x_test)
 # step 5: Evaluate model
 mse = mean_squared_error(y_test, y_predictions)
 r2 = r2_score(y_test,y_predictions)
+print(f'The slope and intercept are: a={model.coef_[0]:.2f} and b= {model.intercept_:.2f}')
 print(f'Mean Squared Error: {mse:.2f}')
 print(f'R^2 Score:{r2:.2f}')
+
+# predict on new data
+x_new = np.array([[-2], [-1], [11], [12]]) # the new extracted data points
+y_new = model.predict(x_new)
+x_new_fit = np.linspace(x_new[0], x_new[-1], 100)
+y_new_fit = model.predict(x_new_fit)
+print(f'the predictions for the new data = [11, 12]: {y_new}')
 
 simple_scatter(x_train, y_train,
                my_legend='Training data',
@@ -46,3 +54,10 @@ simple_scatter(x_test, y_test,
 simple_plot(x_test, y_predictions,
             my_legend='fit',
             my_text='mse')
+simple_scatter(x_new, y_new,
+               my_legend='new data',
+               close=False)
+simple_plot(x_new_fit, y_new_fit,
+                   my_legend='extended fit')
+
+plt.show()

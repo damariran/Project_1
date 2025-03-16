@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from fontTools.unicodedata import block
 from scipy import fft, signal
 
 def simple_fft(x, y):
@@ -57,7 +58,7 @@ def simple_plot(x, y, my_xlimit=None, sub_plot=None, my_legend=None, my_title=No
     plt.grid(True)
 
     if close:
-        plt.show()
+        plt.show(block=False)
     return
 
 def simple_scatter(x, y, my_xlimit=None, sub_plot=None, my_legend=None, my_title=None, my_x_label=None, my_y_label=None, close=True):
@@ -101,7 +102,7 @@ def simple_scatter(x, y, my_xlimit=None, sub_plot=None, my_legend=None, my_title
     plt.grid(True)
 
     if close:
-        plt.show()
+        plt.show(block=False)
     return
 
 def simple_butter_filter(x, y, my_low_pass_cutoff_frequency=None, filter_order=3):
