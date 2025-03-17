@@ -58,7 +58,7 @@ def simple_plot(x, y, my_xlimit=None, sub_plot=None, my_legend=None, my_title=No
     plt.grid(True)
 
     if close:
-        plt.show(block=False)
+        plt.show()
     return
 
 def simple_scatter(x, y, my_xlimit=None, sub_plot=None, my_legend=None, my_title=None, my_x_label=None, my_y_label=None, close=True):
@@ -102,7 +102,7 @@ def simple_scatter(x, y, my_xlimit=None, sub_plot=None, my_legend=None, my_title
     plt.grid(True)
 
     if close:
-        plt.show(block=False)
+        plt.show()
     return
 
 def simple_butter_filter(x, y, my_low_pass_cutoff_frequency=None, filter_order=3):
@@ -118,3 +118,21 @@ def simple_butter_filter(x, y, my_low_pass_cutoff_frequency=None, filter_order=3
     filtered_signal = signal.sosfilt(sos, y) #  this function employ the SOS coefficients to the signal filter.
 
     return filtered_signal, sampling_frequency
+
+def damped_oscillator(state, t, m, b, k):
+    # this function is to be used in conduction with "odeint" function
+    # "state0 = [1.0, 0.0]  # Initial position=1, velocity=0"
+    # "solution = odeint(def damped_oscillator(state, t, m, b, k):, state0, t, args=(m, b, k))"
+    #
+    # This function gets an initial state ( position x and velocity v)
+    # The vector "t" is meant to work with "odeint"' not in this function
+    # and the mass "m"
+    # the damping coefficient "b"
+    # and the spring constant "k"
+    # the function returns the velocity dx_vt and the acceleration dv_dt
+    # for every state x, v for the "odeint" to find a solution.
+    # the solution "odient" returns is the 'amplitude' vector to match the 'time' vector 't'.
+    x, v = state
+    dx_dt = v
+    dv_dt = -(b / m) * v -(k / m) * x
+    return [dx_dt, dv_dt]

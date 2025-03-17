@@ -1,11 +1,16 @@
+import matplotlib.pyplot as plt
 import numpy as np
 from simple_functions import simple_plot
 
-x = np.linspace(0, 10, 100)
-y1 = x**2 -3*x +16
+t = np.linspace(0, 50, 500)
+w=0.3
+phi =0
+gamma = 0.1
+A = np.cos(2 * np.pi * (w - phi) * t) * np.exp(-gamma * t)
 
-simple_plot(x, y1, sub_plot=[2,1,1], my_legend='parabola 1',my_title='Smiling parabola', my_x_label='x[s]',my_y_label='y[m]', close=False)
+number_of_direction_changes = np.sum(np.diff(A, axis=0) > 0, axis=0)
 
-y2 = -x**3 + 2*x**2
+simple_plot(t, A, sub_plot=[2,1,1], close=False)
 
-simple_plot(x,y2, sub_plot=[2,1,2], my_legend='parabola 2',my_title='crying parabola', my_x_label='x[s]',my_y_label='y[m]', close=True)
+A_diff = np.diff(A)
+simple_plot(np.linspace(0,1,len(A_diff)),A_diff, sub_plot=[2,1,2])
