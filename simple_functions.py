@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from fontTools.unicodedata import block
 from scipy import fft, signal
 
 def simple_fft(x, y):
